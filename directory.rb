@@ -1,13 +1,31 @@
 #list all the students in an array
-students = ["Bugs Bunny", "Road Runner", "Coyote", "Daffy Duck", "Donald Duck","The Abominable Snowman"]
-
+students = [
+	{:name => "Bugs Bunny", :cohort => :January},
+	{:name => "Road Runner",:cohort => :November},
+	{:name => "Coyote", :cohort => :Janury},
+	{:name => "Daffy Duck", :cohort => :November},
+	{:name => "Donald Duck", :cohort => :January},
+	{:name => "The Abominable Snowman", :cohort => :January}
+]
 #print them
+def print_header
 puts "The students of my cohort at Makers Academy"
 puts "___________________________________________"
-
-students.each do |student|
-	puts student
 end
 
+def print(students)
+students.each do |student|
+	puts "#{student[:name]} (#{student[:cohort]} cohort)"
+end
+end
+
+def print_footer(names)
 #print final count
-puts "overall we have #{students.length} students."
+puts "overall we have #{names.length} students."
+end
+
+#call methods
+print_header
+print(students)
+print_footer(students)
+
