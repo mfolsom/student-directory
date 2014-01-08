@@ -2,18 +2,26 @@
 
 def input_students
 
-	print "Please enter the names of the students\n"
-	print "To finish, just hit return twice\n"
+	print "First name?\n"
 
 	#empty array
 	students = []
 	#get the first name
 	name = gets.chomp
+	name.capitalize!
+	print "cohort?\n"
+	month = gets.chomp
+	month.upcase!
 
-	while !name.empty? do 
-		students << {:name => name, :cohort => :january}
+	while !name.empty? && !month.empty? do 
+		students << {:name => name, :cohort => month}
 		print "Now we have #{students.length} students\n"
+		print "First name?\n"
 		name = gets.chomp
+		name.capitalize!
+			print "cohort?\n"
+			month = gets.chomp
+			month.upcase!
 	end
 	students
 end
