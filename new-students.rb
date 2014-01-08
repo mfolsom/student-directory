@@ -24,8 +24,8 @@ print "___________________________________________\n"
 end
 
 def output(students)
-students.each do |student|
-	print "#{student[:name]} (#{student[:cohort]} cohort)\n"
+students.each_with_index do |student, i|
+	print "#{i+1}:#{student[:name]} (#{student[:cohort]} cohort)\n"
 end
 
 end
