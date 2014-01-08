@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+	
+
 
 def input_students
 
@@ -32,11 +34,21 @@ def input_students
 	students
 end
 
-def print_header(students)
+def user_choice
+	puts "Which cohort do you want to see?"
+	# cohorts =[]
+	choice = gets.chomp
+	choice.upcase!
+	# cohorts << choice
+	# cohorts
+
+end
+
+def print_header(students, cohorts)
 	if students.count > 1
-		puts "The students of my cohort at Makers Academy".center(100)
+		puts "The students of the #{cohorts} cohort at Makers Academy".center(100)
 	elsif students.count == 1
-		puts "The student of my cohort at Makers Academy".center(100)
+		puts "The student of the #{cohorts} cohort at Makers Academy".center(100)
 	else
 		puts "There are no students (sad face)!".center(100)	
 	end	
@@ -44,14 +56,20 @@ def print_header(students)
 puts "___________________________________________".center(100)
 end
 
-def output(students)
+def output(students, cohorts)
 
+#	students.each {|month|} 
+#	puts "#{students[0]}"
 # students.map {|hash|}
 # hash.select {|name, cohort| [:name, :cohort].include? cohort}
+	#puts students
+ 	sorted_by_cohort=students.sort {|student, cohort| student[:cohort]<=>student[:name]}
+ 	x = sorted_by_cohort.select{ |student, cohort| student[:cohort] == cohorts}.map{|student, cohort| student[:name]}
+ 	puts x
 
-	students.select{|student| student[:cohort] == "JAN" }.each_with_index do |student, i|
-		puts "#{i+1} : #{student[:name]} (#{student[:cohort]} cohort)".center(100)
-	end
+	#students.select{|student| student[:cohort] == "JAN" }.each_with_index do |student, i|
+	#	puts "#{i+1} : #{student[:name]} (#{student[:cohort]} cohort)".center(100)
+	#end
 end
 # @filtered_list = []
 # def filter_students(students)
@@ -78,7 +96,9 @@ def print_footer(names)
 end
 
 students = input_students
-print_header(students)
-output(students)
+cohorts = user_choice
+
+print_header(students,cohorts)
+output(students,cohorts)
 #filter_students(students)
 print_footer(students)
