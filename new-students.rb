@@ -19,15 +19,24 @@ def input_students
 end
 
 def print_header
-print "The students of my cohort at Makers Academy\n"
+print "The students of my cohort at Makers Academy whose name starts with A!\n"
 print "___________________________________________\n"
 end
 
-def output(students)
-students.each_with_index do |student, i|
-	print "#{i+1}:#{student[:name]} (#{student[:cohort]} cohort)\n"
-end
+#def output(students)
+#students.each_with_index do |student, i|
+#	print "#{i+1}:#{student[:name]} (#{student[:cohort]} cohort)\n"
+#end
+#end
+	@filtered_list = []
+def filter_students(students)
 
+	students.each do |student|
+		if student[:name].slice(0,1) == "A"
+			@filtered_list << {student => :name, student=> :cohort}
+			puts "#{student[:name]}:#{student[:cohort]}"
+		end
+	end
 end
 
 def print_footer(names)
@@ -37,5 +46,6 @@ end
 
 students = input_students
 print_header
-output(students)
-print_footer(students)
+#output(students)
+filter_students(students)
+print_footer(@filtered_list)
