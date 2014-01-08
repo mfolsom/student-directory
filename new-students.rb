@@ -11,7 +11,7 @@ def input_students
 	name = gets.chomp
 
 	while !name.empty? do 
-		students << {:name => name, :cohort => :january}
+		students << name.to_s
 		print "Now we have #{students.length} students\n"
 		name = gets.chomp
 	end
@@ -24,10 +24,12 @@ print "___________________________________________\n"
 end
 
 def output(students)
-students.each do |student|
-	print "#{student[:name]} (#{student[:cohort]} cohort)\n"
-end
-
+	count = 0
+  while count <= students.count
+	print "#{students[count]}\n"
+		count +=1
+	
+	end
 end
 
 def print_footer(names)
