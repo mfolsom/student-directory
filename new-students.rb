@@ -2,24 +2,24 @@
 
 def input_students
 
-	print "First name?\n"
+	puts "First name?".ljust(0)
 
 	#empty array
 	students = []
 	#get the first name
 	name = gets.chomp
 	name.capitalize!
-	print "cohort?\n"
+	puts "cohort?".ljust(0)
 	month = gets.chomp
 	month.upcase!
 
 	while !name.empty? && !month.empty? do 
 		students << {:name => name, :cohort => month}
-		print "Now we have #{students.length} students\n"
-		print "First name?\n"
+		puts "Now we have #{students.length} students".center(100)
+		puts "First name?".ljust(0)
 		name = gets.chomp
 		name.capitalize!
-			print "cohort?\n"
+			puts "cohort?".ljust(0)
 			month = gets.chomp
 			month.upcase!
 	end
@@ -27,34 +27,34 @@ def input_students
 end
 
 def print_header
-print "The students of my cohort at Makers Academy\n"
-print "___________________________________________\n"
+puts "The students of my cohort at Makers Academy".center(100)
+puts "___________________________________________".center(100)
 end
 
-#def output(students)
-#students.each_with_index do |student, i|
-#	print "#{i+1}:#{student[:name]} (#{student[:cohort]} cohort)\n"
-#end
-#end
-	@filtered_list = []
-def filter_students(students)
-
-	students.each do |student|
-
-		if student[:name].length <= 12
-			@filtered_list << {student => :name, student=> :cohort}
-			puts "#{student[:name]}:#{student[:cohort]}"
-		end
-	end
+def output(students)
+students.each_with_index do |student, i|
+	puts "#{i+1} : #{student[:name]} (#{student[:cohort]} cohort)".center(100)
 end
+end
+# @filtered_list = []
+# def filter_students(students)
+
+# 	students.each do |student|
+
+# 		if student[:name].length <= 12
+# 			@filtered_list << {student => :name, student=> :cohort}
+# 			puts "#{student[:name]}:#{student[:cohort]}".center(100)
+# 		end
+# 	end
+# end
 
 def print_footer(names)
 #print final count
-print "overall we have #{names.length} students.\n"
+puts "overall we have #{names.length} students.".center(100)
 end
 
 students = input_students
 print_header
-#output(students)
-filter_students(students)
-print_footer(@filtered_list)
+output(students)
+#filter_students(students)
+print_footer(students)
