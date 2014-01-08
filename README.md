@@ -7,5 +7,7 @@ How to use
 ----------
 
 ```
-ruby directory.rb
+ruby directory.rb   => to view a list of students
+
+ruby new-students.rb => to enter a new list of students and store them in a hash.
 ```
