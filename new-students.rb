@@ -19,7 +19,7 @@ def input_students
 end
 
 def print_header
-print "The students of my cohort at Makers Academy whose name starts with A!\n"
+print "The students of my cohort at Makers Academy\n"
 print "___________________________________________\n"
 end
 
@@ -32,7 +32,8 @@ end
 def filter_students(students)
 
 	students.each do |student|
-		if student[:name].slice(0,1) == "A"
+
+		if student[:name].length <= 12
 			@filtered_list << {student => :name, student=> :cohort}
 			puts "#{student[:name]}:#{student[:cohort]}"
 		end
