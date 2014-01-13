@@ -4,6 +4,7 @@
 def print_menu
 	puts "1. Input the students."
 	puts "2. Show the students."
+	puts "3. Save the students to a file."
 	puts "9. Exit"
 end
 
@@ -20,6 +21,8 @@ def process(selection)
 		when "2"
 			input_cohorts
 			show_students
+		when "3"
+			save_students
 		when "9"
 			exit
 	else
@@ -29,6 +32,7 @@ end
 
 def interactive_menu
 	loop do
+		load_students
 		print_menu
 		process(gets.chomp)
 	end
@@ -88,4 +92,63 @@ def print_footer
 
 end
 
+def save_students
+	# open the file for writing
+	file = File.open("students.csv", "a")
+	# iterate over the array of students
+	@students.each do |student|
+		student_data = [student[:name], student[:cohort]]
+		csv_line = student_data.join(',')
+		file.puts csv_line
+	end
+	file.close
+	puts "Students saved!"
+end
+
+def load_students
+	file = File.open("students.csv", "r")
+	file.readlines.each do |line|
+		name, cohort = line.chomp.split(',')
+		@students << {:name => name, :cohort => cohort}
+	end
+	file.close
+end
+
 interactive_menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
