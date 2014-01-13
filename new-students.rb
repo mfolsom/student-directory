@@ -8,10 +8,9 @@ def print_menu
 end
 
 def show_students
-	cohorts = user_choice
-	print_header(@students,cohorts)
-	output(@students, cohorts)
-	print_footer(@students, cohorts)
+	print_header
+	print_student_list
+	print_footer
 end
 
 def process(selection)
@@ -19,6 +18,7 @@ def process(selection)
 		when "1"
 			input_students
 		when "2"
+			input_cohorts
 			show_students
 		when "9"
 			exit
@@ -59,33 +59,32 @@ def input_students
 	@students
 end
 
-def user_choice
-	puts "Which cohort do you want to see?"
-	choice = gets.chomp.upcase!
+	def input_cohorts
+		puts "Which cohort do you want to see?"
+		@cohorts = gets.chomp.upcase!
+		@cohorts
+	end
 
-end
-
-def print_header(students, cohorts)
+def print_header
 	
-	puts " The students of the #{cohorts} cohort at Makers Academy ".center(100,'*') if students.count > 1
-	puts " The student of the #{cohorts} cohort at Makers Academy ".center(100,'*') if students.count == 1
-	puts " There are no students (sad face)! ".center(100,'*') if students.count.zero?
+	puts " The students of the #{@cohorts} cohort at Makers Academy ".center(100,'*') if @students.count > 1
+	puts " The student of the #{@cohorts} cohort at Makers Academy ".center(100,'*') if @students.count == 1
+	puts " There are no students (sad face)! ".center(100,'*') if @students.count.zero?
 	puts "___________________________________________".center(100)
 end
 
-def output(students, cohorts)
- 	sorted_by_cohort=students.sort {|student, cohort| student[:cohort]<=>student[:name]}
- 	x = sorted_by_cohort.select{ |student, cohort| student[:cohort] == cohorts}.map{|student, cohort| student[:name]}
+def print_student_list
+ 	sorted_by_cohort=@students.sort {|student, cohort| student[:cohort]<=>student[:name]}
+ 	x = sorted_by_cohort.select{ |student, cohort| student[:cohort] == @cohorts}.map{|student, cohort| student[:name]}
  	puts x
-
 end
 
-def print_footer(names, cohorts)
-   number = names.count{|student| student[:cohort] == cohorts}
+def print_footer
+   number = @students.count{|student| student[:cohort] == @cohorts}
    no_names = " Hey why don't you enroll? ".center(100,'+')
    one_name = " there is a student! yay! ".center(100, '+')
    several_names = " we have #{number} students in this cohort. ".center(100,'+')
-   puts(names.count.zero? ? no_names : names.count ==1 ? one_name : several_names)
+   puts(@students.count.zero? ? no_names : @students.count ==1 ? one_name : several_names)
 
 end
 
