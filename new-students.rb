@@ -1,10 +1,13 @@
 #!/usr/bin/env ruby
 @students = []
 
+
+
 def print_menu
 	puts "1. Input the students."
 	puts "2. Show the students."
 	puts "3. Save the students to a file."
+	puts "4. Load the students"
 	puts "9. Exit"
 end
 
@@ -23,6 +26,8 @@ def process(selection)
 			show_students
 		when "3"
 			save_students
+		when "4"
+			load_students
 		when "9"
 			exit
 	else
@@ -32,18 +37,19 @@ end
 
 def interactive_menu
 	loop do
-		load_students
+		try_load_students
 		print_menu
-		process(gets.chomp)
+		process(STDIN.gets.chomp)
 	end
 end
+
 
 def input_students
 
 	puts "First name?".ljust(0)
 
 	#students = []
-	name = gets.chomp
+	name = STDIN.gets.chomp
 	name.capitalize!
 	puts "cohort?".ljust(0,'***')
 	month = gets.chomp.upcase!
@@ -55,17 +61,17 @@ def input_students
         one_student = " Now there is #{@students.length} student ".center(100, '%')
 		puts(@students.length > 1 ? student_counts : one_student)
 		puts "First name?".ljust(0)
-		name = gets.chomp
+		name = STDIN.gets.chomp
 		name.capitalize!
 		puts "cohort?".ljust(0)
-		month = gets.chomp.upcase!
+		month = STDIN.gets.chomp.upcase!
 	end
 	@students
 end
 
 	def input_cohorts
 		puts "Which cohort do you want to see?"
-		@cohorts = gets.chomp.upcase!
+		@cohorts = STDIN.gets.chomp.upcase!
 		@cohorts
 	end
 
@@ -94,7 +100,7 @@ end
 
 def save_students
 	# open the file for writing
-	file = File.open("students.csv", "a")
+	file = File.open("students.csv", "w")
 	# iterate over the array of students
 	@students.each do |student|
 		student_data = [student[:name], student[:cohort]]
@@ -105,14 +111,27 @@ def save_students
 	puts "Students saved!"
 end
 
-def load_students
-	file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+	file = File.open(filename, "r")
 	file.readlines.each do |line|
 		name, cohort = line.chomp.split(',')
 		@students << {:name => name, :cohort => cohort}
 	end
 	file.close
 end
+
+def try_load_students
+	filename=ARGV.first
+	return if filename.nil?
+	if File.exists?(filename)
+		load_students(filename)
+		puts "Loaded #{@students}"
+	else 
+		puts "Sorry #{filename} doesn't exist"
+		exit
+	end
+end
+
 
 interactive_menu
 
