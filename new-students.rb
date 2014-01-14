@@ -2,7 +2,15 @@
 @students = []
 
 
+def interactive_menu
+	try_load_students
+	loop do
+		print_menu
+		process(STDIN.gets.chomp)
+	end
+end
 
+## MENU Part ##
 def print_menu
 	puts "1. Input the students."
 	puts "2. Show the students."
@@ -11,69 +19,70 @@ def print_menu
 	puts "9. Exit"
 end
 
-def show_students
-	print_header
-	print_student_list
-	print_footer
-end
-
 def process(selection)
 	case selection
 		when "1"
 			input_students
 		when "2"
 			input_cohorts
+			@students = []
+			try_load_students
 			show_students
 		when "3"
 			save_students
 		when "4"
-			load_students
+			save_or_not
 		when "9"
 			exit
 	else
 		puts "I don't know what you meant, try again."
 	end	
 end
+## END of Menu Part ##
 
-def interactive_menu
-	loop do
-		try_load_students
-		print_menu
-		process(STDIN.gets.chomp)
-	end
+
+## Inputting of students happen here ##
+def input_name_and_cohort
+	puts "First name?"
+	@name = STDIN.gets.chomp
+	@name.capitalize!
+	puts "cohort?"
+	@month = STDIN.gets.chomp.upcase!
+
+
 end
 
 
 def input_students
+input_name_and_cohort
 
-	puts "First name?".ljust(0)
-
-	#students = []
-	name = STDIN.gets.chomp
-	name.capitalize!
-	puts "cohort?".ljust(0,'***')
-	month = gets.chomp.upcase!
-	
-
-	while !name.empty? && !month.empty? do 
-		@students << {:name => name, :cohort => month}
+	while !@name.empty? && !@month.empty? do 
+		@students << {:name => @name, :cohort => @month}
 		student_counts = " Now there are #{@students.length} students! ".center(100, '%')
         one_student = " Now there is #{@students.length} student ".center(100, '%')
 		puts(@students.length > 1 ? student_counts : one_student)
-		puts "First name?".ljust(0)
-		name = STDIN.gets.chomp
-		name.capitalize!
-		puts "cohort?".ljust(0)
-		month = STDIN.gets.chomp.upcase!
+		input_name_and_cohort
 	end
+	save_or_not
 	@students
+
 end
 
-	def input_cohorts
-		puts "Which cohort do you want to see?"
-		@cohorts = STDIN.gets.chomp.upcase!
-		@cohorts
-	end
+def input_cohorts
+
+	puts "Which cohort do you want to see?"
+	@cohorts = STDIN.gets.chomp.upcase!
+	@cohorts
+
+end
+## END of inputting ##
+
+## Show Students Part ##
+def show_students
+	print_header
+	print_student_list
+	print_footer
+end
 
 def print_header
 	
@@ -97,10 +106,13 @@ def print_footer
    puts(@students.count.zero? ? no_names : @students.count ==1 ? one_name : several_names)
 
 end
+##  END OF Show Students Part ##
 
+## LOADING AND SAVING Part ##
 def save_students
 	# open the file for writing
-	file = File.open("students.csv", "w")
+    filename=ARGV.first
+	file = File.open(filename, "w")
 	# iterate over the array of students
 	@students.each do |student|
 		student_data = [student[:name], student[:cohort]]
@@ -110,6 +122,21 @@ def save_students
 	file.close
 	puts "Students saved!"
 end
+
+def save_or_not
+	puts "Would you like to save the students you entered? (yes/no)"
+	save = STDIN.gets.chomp
+	case save
+	when "yes"
+		save_students
+		@students = []
+		try_load_students
+	when "no"
+      @students = []
+      try_load_students
+    end
+	end
+
 
 def load_students(filename = "students.csv")
 	file = File.open(filename, "r")
@@ -125,47 +152,18 @@ def try_load_students
 	return if filename.nil?
 	if File.exists?(filename)
 		load_students(filename)
-		puts "Loaded #{@students}"
+		puts "Loaded #{ARGF.argv[0]}"
 	else 
 		puts "Sorry #{filename} doesn't exist"
 		exit
 	end
 end
 
+## END OF LOADING AND SAVING Part ##
 
+
+puts "Welcome to #{$0}!"
 interactive_menu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
