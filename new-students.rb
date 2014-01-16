@@ -4,6 +4,8 @@ class StudentDirectory
 
 	def initialize # called when we do StudentDirectory.new
 		@students = []
+		interactive_menu
+		
 	end
 
 
@@ -167,6 +169,7 @@ class StudentDirectory
 	## END OF LOADING AND SAVING Part ##
 end
 
+StudentDirectory.new
 
 
 
